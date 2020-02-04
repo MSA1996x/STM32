@@ -1,0 +1,54 @@
+/*
+ * PCR.c
+ *
+ *  Created on: Dec 21, 2019
+ *      Author: Mohammed Samir
+ */
+
+
+#include <MCAL/STM32F103/MCAL_H/PWR.h>
+
+inline void WFI(void)
+{
+	__asm volatile ("wfi");
+}
+
+
+inline void WFE(void)
+{
+	__asm volatile ("wfe");
+}
+
+
+void PWR_Conifg(char PWR_DBP, char PWR_PLS, char PWR_PVDE, char PWR_PDDS, char PWR_LPDS, char PWR_EWUP){
+
+	PWR_CLOCK_ENABLE = 1;
+
+	PWR_PWR_CR_DBP = PWR_DBP - _PWR_DBP_OFFSET;
+
+	PWR_PWR_CR_PLS0 = (PWR_PLS - _PWR_PLS_OFFSET) & 0x01;
+	PWR_PWR_CR_PLS1 = ((PWR_PLS - _PWR_PLS_OFFSET)>>1) & 0x01;
+	PWR_PWR_CR_PLS2 = (PWR_PLS - _PWR_PLS_OFFSET)>>2;
+
+	PWR_PWR_CR_PVDE = PWR_PVDE - _PWR_PVDE_OFFSET;
+
+	PWR_PWR_CR_PDDS	= PWR_PDDS - _PWR_PDDS_OFFSET;
+
+	PWR_PWR_CR_LPDS	= PWR_LPDS - _PWR_LPDS_OFFSET;
+
+	PWR_PWR_CSR_EWUP	= PWR_EWUP - _PWR_EWUP_OFFSET;
+
+
+}
+
+void PWR_SCB_Config(char PWR_SEVEONPEND,char PWR_SLEEPMODE,char PWR_SLEEPONEXIT){
+
+	SCB_SCR &= 0xFFFFFFE9;
+	SCB_SCR |= ( ((PWR_SEVEONPEND - _PWR_SEVEONPEND_OFFSET)<<4) | ((PWR_SLEEPMODE - _PWR_SLEEPMODE_OFFSET)<<2) | ((PWR_SLEEPONEXIT - _PWR_SLEEPONEXIT_OFFSET)<<1) );
+}
+
+void PWR_Clear_Flags(char PWR_CSBF, char PWR_CWUF){
+	PWR_PWR_CR_CSBF	= PWR_CSBF - _PWR_CSBF_OFFSET;
+	PWR_PWR_CR_CWUF	= PWR_CWUF - _PWR_CWUF_OFFSET;
+}
+

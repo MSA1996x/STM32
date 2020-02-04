@@ -1,0 +1,231 @@
+/*
+ * Timer.h
+ *
+ *  Created on: Dec 18, 2019
+ *      Author: Mohammed Samir
+ */
+
+#ifndef HEADERS_TIMER1_H_
+#define HEADERS_TIMER1_H_
+
+/*<Includes>*/
+#include <MCAL/STM32F103/MCAL_H/MemoryMap.h>
+#include <stdarg.h>
+/*<Includes>*/
+
+
+/*<Bit-Band Pointers>*/
+#define TMR1_CLOCK_ENABLE  	BITBAND_PERI(RCC_BASE + RCC_APB2ENR_OFFSET, 11)
+
+#define TIM1_CR1_CMS1		BITBAND_PERI(TMR1_BASE + TIMx_CR1, 6)
+#define TIM1_CR1_CMS0		BITBAND_PERI(TMR1_BASE + TIMx_CR1, 5)
+#define TIM1_CR1_DIR		BITBAND_PERI(TMR1_BASE + TIMx_CR1, 4)
+#define TIM1_CR1_CEN		BITBAND_PERI(TMR1_BASE + TIMx_CR1, 0)
+
+
+#define TIM1_CR2_TI1S		BITBAND_PERI(TMR1_BASE + TIMx_CR2, 7)
+#define TIM1_CR2_MMS2		BITBAND_PERI(TMR1_BASE + TIMx_CR2, 2)
+#define TIM1_CR2_MMS1		BITBAND_PERI(TMR1_BASE + TIMx_CR2, 1)
+#define TIM1_CR2_MMS0		BITBAND_PERI(TMR1_BASE + TIMx_CR2, 0)
+
+
+#define TIM1_SMCR_ETP		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 15)
+#define TIM1_SMCR_ECE		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 14)
+#define TIM1_SMCR_ETPS1		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 13)
+#define TIM1_SMCR_ETPS0		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 12)
+#define TIM1_SMCR_ETF3		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 11)
+#define TIM1_SMCR_ETF2		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 10)
+#define TIM1_SMCR_ETF1		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 9)
+#define TIM1_SMCR_ETF0		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 8)
+#define TIM1_SMCR_TS2		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 6)
+#define TIM1_SMCR_TS1		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 5)
+#define TIM1_SMCR_TS0		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 4)
+#define TIM1_SMCR_SMS2		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 2)
+#define TIM1_SMCR_SMS1		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 1)
+#define TIM1_SMCR_SMS0		BITBAND_PERI(TMR1_BASE + TIMx_SMCR, 0)
+
+
+#define TIM1_SR_TIF		BITBAND_PERI(TMR1_BASE + TIMx_SR, 6)
+#define TIM1_SR_CC2IF	BITBAND_PERI(TMR1_BASE + TIMx_SR, 2)
+#define TIM1_SR_CC1IF	BITBAND_PERI(TMR1_BASE + TIMx_SR, 1)
+#define TIM1_SR_UIF		BITBAND_PERI(TMR1_BASE + TIMx_SR, 0)
+
+
+#define TIM1_CCMR1_CC2S1	BITBAND_PERI(TMR1_BASE + TIMx_CCMR1, 9)
+#define TIM1_CCMR1_CC2S0	BITBAND_PERI(TMR1_BASE + TIMx_CCMR1, 8)
+#define TIM1_CCMR1_CC1S1	BITBAND_PERI(TMR1_BASE + TIMx_CCMR1, 1)
+#define TIM1_CCMR1_CC1S0	BITBAND_PERI(TMR1_BASE + TIMx_CCMR1, 0)
+
+
+#define TIM1_CCER_CC2NP	BITBAND_PERI(TMR1_BASE + TIMx_CCER, 7)
+#define TIM1_CCER_CC2P  BITBAND_PERI(TMR1_BASE + TIMx_CCER, 5)
+#define TIM1_CCER_CC2E  BITBAND_PERI(TMR1_BASE + TIMx_CCER, 4)
+#define TIM1_CCER_CC1NP	BITBAND_PERI(TMR1_BASE + TIMx_CCER, 3)
+#define TIM1_CCER_CC1P  BITBAND_PERI(TMR1_BASE + TIMx_CCER, 1)
+#define TIM1_CCER_CC1E  BITBAND_PERI(TMR1_BASE + TIMx_CCER, 0)
+
+#define TIM1_DIER_CC2DE		BITBAND_PERI(TMR1_BASE + TIMx_DIER, 10)
+#define TIM1_DIER_CC1DE		BITBAND_PERI(TMR1_BASE + TIMx_DIER, 9)
+#define TIM1_DIER_TIE		BITBAND_PERI(TMR1_BASE + TIMx_DIER, 6)
+#define TIM1_DIER_CC2IE		BITBAND_PERI(TMR1_BASE + TIMx_DIER, 2)
+#define TIM1_DIER_CC1IE		BITBAND_PERI(TMR1_BASE + TIMx_DIER, 1)
+#define TIM1_DIER_UIE		BITBAND_PERI(TMR1_BASE + TIMx_DIER, 0)
+/*</Bit-Band Pointers>*/
+
+
+/*<Registers Pointers>*/
+#define TIM1_PSC 	(*(volatile unsigned int *)(TMR1_BASE + TIMx_PSC))
+#define TIM1_ARR 	(*(volatile unsigned int *)(TMR1_BASE + TIMx_ARR))
+#define TIM1_CNT 	(*(volatile unsigned int *)(TMR1_BASE + TIMx_CNT))
+
+#define TIM1_CCR1 	(*(volatile unsigned int *)(TMR1_BASE + TIMx_CCR1))
+#define TIM1_CCR2 	(*(volatile unsigned int *)(TMR1_BASE + TIMx_CCR2))
+#define TIM1_DCR 	(*(volatile unsigned int *)(TMR1_BASE + TIMx_DCR))
+#define TIM1_DMAR 	(*(volatile unsigned int *)(TMR1_BASE + TIMx_DMAR))
+/*</Registers Pointers>*/
+
+
+/*<Functions' Parameters>*/
+
+/*Cases of TMR_DIR Pram*/
+#define _TMR_DIR_OFFSET			0
+#define TMR_DIR_UP_COUNTER		(0 + _TMR_DIR_OFFSET)
+#define TMR_DIR_DOWN_COUNTER	(1 + _TMR_DIR_OFFSET)
+
+/*Cases of TMR_CMS Pram*/
+#define _TMR_CMS_OFFSET			2
+#define TMR_CMS_MODE0			(0 + _TMR_CMS_OFFSET)
+#define TMR_CMS_MODE1			(1 + _TMR_CMS_OFFSET)
+#define TMR_CMS_MODE2			(2 + _TMR_CMS_OFFSET)
+#define TMR_CMS_MODE3			(3 + _TMR_CMS_OFFSET)
+
+/*Cases of TMR_UI Pram*/
+#define _TMR_UI_OFFSET			6
+#define TMR_UID					(0 + _TMR_UI_OFFSET)
+#define TMR_UIE					(1 + _TMR_UI_OFFSET)
+
+/*Cases of TMR_TI Pram*/
+#define _TMR_TI_OFFSET			8
+#define TMR_TID					(0 + _TMR_UI_OFFSET)
+#define TMR_TIE					(1 + _TMR_UI_OFFSET)
+
+/*Cases of TMR_ETP Pram*/
+#define _TMR_ETP_OFFSET			10
+#define TMR_ETP_RISING_EDGE 	(0 + _TMR_ETP_OFFSET)
+#define TMR_ETP_FALLING_EDGE 	(1 + _TMR_ETP_OFFSET)
+
+/*Cases of TMR_ECE Pram*/
+#define _TMR_ECE_OFFSET			12
+#define TMR_ECE_DISABLE	 		(0 + _TMR_ECE_OFFSET)
+#define TMR_ECE_ENABLE	 		(1 + _TMR_ECE_OFFSET)
+
+/*Cases of TMR_ETPS Pram*/
+#define _TMR_ETPS_OFFSET		14
+#define TMR_ETPS_DIV_1	 		(0 + _TMR_ETPS_OFFSET)
+#define TMR_ETPS_DIV_2	 		(1 + _TMR_ETPS_OFFSET)
+#define TMR_ETPS_DIV_4	 		(2 + _TMR_ETPS_OFFSET)
+#define TMR_ETPS_DIV_8	 		(3 + _TMR_ETPS_OFFSET)
+
+/*Cases of TMR_ETF Pram*/
+#define _TMR_ETF_OFFSET			18
+#define TMR_ETF_NO_FILTER 		(0 + _TMR_ETF_OFFSET)
+#define TMR_ETF_CK_D1_N2 		(1 + _TMR_ETF_OFFSET)
+#define TMR_ETF_CK_D1_N4 		(2 + _TMR_ETF_OFFSET)
+#define TMR_ETF_CK_D1_N8 		(3 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D2_N6 		(4 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D2_N8 		(5 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D4_N6 		(6 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D4_N8 		(7 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D8_N6 		(8 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D8_N8 		(9 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D16_N5 		(10 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D16_N6 		(11 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D16_N8 		(12 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D32_N5 		(13 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D32_N6 		(14 + _TMR_ETF_OFFSET)
+#define TMR_ETF_DTS_D32_N8 		(15 + _TMR_ETF_OFFSET)
+
+/*Cases of TMR_TS Pram*/
+#define _TMR_TS_OFFSET			34
+#define TMR_TS_ITR0 			(0 + _TMR_TS_OFFSET)
+#define TMR_TS_ITR1 			(1 + _TMR_TS_OFFSET)
+#define TMR_TS_ITR2 			(2 + _TMR_TS_OFFSET)
+#define TMR_TS_ITR3 			(3 + _TMR_TS_OFFSET)
+#define TMR_TS_TI1F_ED 			(4 + _TMR_TS_OFFSET)
+#define TMR_TS_TI1FP1			(5 + _TMR_TS_OFFSET)
+#define TMR_TS_TI2FP2			(6 + _TMR_TS_OFFSET)
+#define TMR_TS_ETRF 			(7 + _TMR_TS_OFFSET)
+
+/*Cases of TMR_SMS Pram*/
+#define _TMR_SMS_OFFSET			42
+#define TMR_SMS_DISABLE			(0 + _TMR_SMS_OFFSET)
+#define TMR_SMS_ENCODER1		(1 + _TMR_SMS_OFFSET)
+#define TMR_SMS_ENCODER2		(2 + _TMR_SMS_OFFSET)
+#define TMR_SMS_ENCODER3		(3 + _TMR_SMS_OFFSET)
+#define TMR_SMS_RESET			(4 + _TMR_SMS_OFFSET)
+#define TMR_SMS_GATED			(5 + _TMR_SMS_OFFSET)
+#define TMR_SMS_TRIGGER			(6 + _TMR_SMS_OFFSET)
+#define TMR_SMS_EXTERNAL		(7 + _TMR_SMS_OFFSET)
+
+/*Cases of TMR_CC1S Pram*/
+#define _TMR_CC1S_OFFSET		50
+#define TMR_CC1S_OUTPUT			(0 + _TMR_CC1S_OFFSET)
+#define TMR_CC1S_INPUT_TI1		(1 + _TMR_CC1S_OFFSET)
+#define TMR_CC1S_INPUT_TI2		(2 + _TMR_CC1S_OFFSET)
+#define TMR_CC1S_INPUT_TRC		(3 + _TMR_CC1S_OFFSET)
+
+/*Cases of TMR_CC1NP Pram*/
+#define _TMR_CC1NP_OFFSET		54
+#define TMR_CC1NP_OUTPUT		(0 + _TMR_CC1NP_OFFSET)
+#define TMR_CC1NP_INPUT			(1 + _TMR_CC1NP_OFFSET)
+
+/*Cases of TMR_CC1P Pram*/
+#define _TMR_CC1P_OFFSET		56
+#define TMR_CC1P_ACTIVE_HIGH	(0 + _TMR_CC1P_OFFSET)
+#define TMR_CC1P_ACTIVE_LOW		(1 + _TMR_CC1P_OFFSET)
+
+/*Cases of TMR_CC2S Pram*/
+#define _TMR_CC2S_OFFSET		58
+#define TMR_CC2S_OUTPUT			(0 + _TMR_CC2S_OFFSET)
+#define TMR_CC2S_INPUT_TI2		(1 + _TMR_CC2S_OFFSET)
+#define TMR_CC2S_INPUT_TI1		(2 + _TMR_CC2S_OFFSET)
+#define TMR_CC2S_INPUT_TRC		(3 + _TMR_CC2S_OFFSET)
+
+/*Cases of TMR_CC2NP Pram*/
+#define _TMR_CC2NP_OFFSET		62
+#define TMR_CC2NP_OUTPUT		(0 + _TMR_CC2NP_OFFSET)
+#define TMR_CC2NP_INPUT			(1 + _TMR_CC2NP_OFFSET)
+
+/*Cases of TMR_CC2P Pram*/
+#define _TMR_CC2P_OFFSET		64
+#define TMR_CC2P_ACTIVE_HIGH	(0 + _TMR_CC2P_OFFSET)
+#define TMR_CC2P_ACTIVE_LOW		(1 + _TMR_CC2P_OFFSET)
+
+/*Cases of TMR_MMS Pram*/
+#define _TMR_MMS_OFFSET			66
+#define TMR_MMS_RESET			(0 + _TMR_MMS_OFFSET)
+#define TMR_MMS_ENABLE			(1 + _TMR_MMS_OFFSET)
+#define TMR_MMS_UPDATE			(2 + _TMR_MMS_OFFSET)
+#define TMR_MMS_COMP_PULSE		(3 + _TMR_MMS_OFFSET)
+#define TMR_MMS_OC1REF			(4 + _TMR_MMS_OFFSET)
+#define TMR_MMS_OC2REF			(5 + _TMR_MMS_OFFSET)
+#define TMR_MMS_OC3REF			(6 + _TMR_MMS_OFFSET)
+#define TMR_MMS_OC4REF			(7 + _TMR_MMS_OFFSET)
+/*</Functions' Parameters>*/
+
+
+/*</Functions>*/
+void TMR1_Config(unsigned int PSC, unsigned int ARR, char TMR_CMS, char TMR_UI);
+void TMR1_Config_Ext(unsigned int ARR, char TMR_ETP, char ECE, char TMR_ETPS, char TMR_ETF, char TMR_TS, char TMR_SMS, char TMR_UI, char TMR_TI);
+void TMR1_Config_Cap(char TMR_CC1S, char TMR_CC1NP, char TMR_CC1P, char TMR_CC2S, char TMR_CC2NP, char TMR_CC2P);
+void TMR1_Config_CC1(char TMR_CC1S, char TMR_CC1NP, char TMR_CC1P);
+void TMR1_Config_CC2(char TMR_CC2S, char TMR_CC2NP, char TMR_CC2P);
+/*</Functions>*/
+
+
+typedef struct CC_Reg{
+	uint32_t CCR1;
+	uint32_t CCR2;
+} CC_RegType;
+
+#endif /* HEADERS_TIMER1_H_ */

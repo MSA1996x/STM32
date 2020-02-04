@@ -1,0 +1,21 @@
+/*
+ * PinReMap.h
+ *
+ *  Created on: Dec 28, 2019
+ *      Author: Mohammed Samir
+ */
+
+#ifndef HEADERS_PINREMAP_H_
+#define HEADERS_PINREMAP_H_
+
+
+#define TIM3_REMAP1		BITBAND_PERI(AFIO_BASE + 0x04, 11)
+#define TIM3_REMAP0		BITBAND_PERI(AFIO_BASE + 0x04, 10)
+#define USART2_REMAP	BITBAND_PERI(AFIO_BASE + 0x04, 3)
+#define SPI1_REMAP		BITBAND_PERI(AFIO_BASE + 0x04, 0)
+
+
+#define TIM13_REMAP		BITBAND_PERI(AFIO_BASE + 0x1C, 8)
+#define TIM14_REMAP		BITBAND_PERI(AFIO_BASE + 0x1C, 9)
+
+#endif /* HEADERS_PINREMAP_H_ */

@@ -1,0 +1,84 @@
+/*
+ * GPIO.c
+ *
+ *  Created on: Dec 4, 2019
+ *      Author: Mohammed Samir
+ */
+
+#include <MCAL/STM32F103/MCAL_H/GPIO.h>
+
+void GPIO_Config(GPIO_TypeDef * GPIO, char PIN, char MODE,char CONFIG){
+	GPIO_Enable(GPIO, GPIO_ENABLE_TRUE);
+	GPIO_Mode(GPIO, PIN, MODE);
+
+
+	switch(CONFIG){
+	case CONFIG_OUTPUT_GP_PUSH_PULL:
+	case CONFIG_INPUT_ANALOG:
+		GPIO_CNF(GPIO, PIN, CNF00);
+		break;
+	case CONFIG_OUTPUT_GP_OPEN_DRAIN:
+	case CONFIG_INPUT_FLOATING:
+		GPIO_CNF(GPIO, PIN, CNF01);
+		break;
+
+	case CONFIG_OUTPUT_AF_PUSH_PULL:
+		AFIO_CLOCK_ENABLE = 1;
+		GPIO_CNF(GPIO, PIN, CNF10);
+		break;
+	case CONFIG_INPUT_PULL_UP:
+	case CONFIG_INPUT_PULL_DOWN:
+		GPIO_CNF(GPIO, PIN, CNF10);
+		digitalWrite(GPIO, PIN,CONFIG - CONFIG_INPUT_PULL_DOWN);
+		break;
+	case CONFIG_OUTPUT_AF_OPEN_DRAIN:
+		AFIO_CLOCK_ENABLE = 1;
+		GPIO_CNF(GPIO, PIN, CNF11);
+		break;
+	}
+
+
+
+}
+
+
+
+void GPIO_Mode(GPIO_TypeDef * GPIO, char PIN, char MODE){
+	if(PIN <= 7){
+		BITBAND_PERI(GPIO + CRL_OFFSET, PIN * 4) = MODE & 0x01;
+		BITBAND_PERI(GPIO + CRL_OFFSET, PIN * 4 + 1) = MODE>>1;
+	}
+	else{
+		BITBAND_PERI(GPIO + CRH_OFFSET, (PIN - 8) * 4) = MODE & 0x01;
+		BITBAND_PERI(GPIO + CRH_OFFSET, (PIN - 8) * 4 + 1) = MODE>>1;
+	}
+}
+
+void GPIO_CNF(GPIO_TypeDef * GPIO, char PIN, char CNF){
+	if(PIN <= 7){
+		BITBAND_PERI(GPIO + CRL_OFFSET, PIN * 4 + 2) = CNF & 0x01;
+		BITBAND_PERI(GPIO + CRL_OFFSET, PIN * 4 + 3) = CNF>>1;
+	}
+	else{
+		BITBAND_PERI(GPIO + CRH_OFFSET, (PIN - 8) * 4 + 2) = CNF & 0x01;
+		BITBAND_PERI(GPIO + CRH_OFFSET, (PIN - 8) * 4 + 3) = CNF>>1;
+	}
+}
+
+void GPIO_Enable(GPIO_TypeDef * GPIO,char GPIO_ENABLE){
+	if(GPIO == GPIOA)
+		GPIOA_CLOCK_ENABLE = GPIO_ENABLE;
+	else if(GPIO == GPIOB)
+		GPIOB_CLOCK_ENABLE = GPIO_ENABLE;
+	else if(GPIO == GPIOC)
+		GPIOC_CLOCK_ENABLE = GPIO_ENABLE;
+}
+
+char digitalRead(GPIO_TypeDef * GPIO, char PIN){
+	return BITBAND_PERI(GPIO + IDR_OFFSET, PIN);
+}
+
+void digitalWrite(GPIO_TypeDef * GPIO,char PIN, char STATE){
+	BITBAND_PERI(GPIO + ODR_OFFSET, PIN) = STATE;
+
+}

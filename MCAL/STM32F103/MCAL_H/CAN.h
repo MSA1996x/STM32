@@ -1,0 +1,302 @@
+/*
+ * CAN.h
+ *
+ *  Created on: Jan 12, 2020
+ *      Author: Mohammed Samir
+ */
+
+#ifndef HEADERS_CAN_H_
+#define HEADERS_CAN_H_
+
+/*<Includes>*/
+#include <MCAL/STM32F103/MCAL_H/MemoryMap.h>
+#include <MCAL/STM32F103/MCAL_H/GPIO.h>
+/*</Includes>*/
+
+/*<Definitions>*/
+#define REC_SUCCESS 	1
+#define REC_FAIL 		0
+/*</Definitions>*/
+
+
+/*<Bit-Band Pointers>*/
+#define CAN1_CLOCK_ENABLE  		BITBAND_PERI(RCC_BASE + RCC_APB1ENR_OFFSET, 25)
+#define CAN1_RESET		  		BITBAND_PERI(RCC_BASE + RCC_APB1RSTR_OFFSET, 25)
+
+#define CAN1_MCR_DBF	  		BITBAND_PERI(CAN1_BASE + CAN_MCR_OFFSET, 16)
+#define CAN1_MCR_RESET	  		BITBAND_PERI(CAN1_BASE + CAN_MCR_OFFSET, 15)
+#define CAN1_MCR_TTCM	  		BITBAND_PERI(CAN1_BASE + CAN_MCR_OFFSET, 7)
+#define CAN1_MCR_ABOM	  		BITBAND_PERI(CAN1_BASE + CAN_MCR_OFFSET, 6)
+#define CAN1_MCR_AWUM	  		BITBAND_PERI(CAN1_BASE + CAN_MCR_OFFSET, 5)
+#define CAN1_MCR_NART	  		BITBAND_PERI(CAN1_BASE + CAN_MCR_OFFSET, 4)
+#define CAN1_MCR_RFLM	  		BITBAND_PERI(CAN1_BASE + CAN_MCR_OFFSET, 3)
+#define CAN1_MCR_TXFP	  		BITBAND_PERI(CAN1_BASE + CAN_MCR_OFFSET, 2)
+#define CAN1_MCR_SLEEP	  		BITBAND_PERI(CAN1_BASE + CAN_MCR_OFFSET, 1)
+#define CAN1_MCR_INRQ	  		BITBAND_PERI(CAN1_BASE + CAN_MCR_OFFSET, 0)
+
+#define CAN1_MSR_RX		  		BITBAND_PERI(CAN1_BASE + CAN_MSR_OFFSET, 11)
+#define CAN1_MSR_SAMP	  		BITBAND_PERI(CAN1_BASE + CAN_MSR_OFFSET, 10)
+#define CAN1_MSR_RXM  			BITBAND_PERI(CAN1_BASE + CAN_MSR_OFFSET, 9)
+#define CAN1_MSR_TXM	  		BITBAND_PERI(CAN1_BASE + CAN_MSR_OFFSET, 8)
+#define CAN1_MSR_SLAKI	  		BITBAND_PERI(CAN1_BASE + CAN_MSR_OFFSET, 4)
+#define CAN1_MSR_WKUI	  		BITBAND_PERI(CAN1_BASE + CAN_MSR_OFFSET, 3)
+#define CAN1_MSR_ERRI	  		BITBAND_PERI(CAN1_BASE + CAN_MSR_OFFSET, 2)
+#define CAN1_MSR_SLAK	  		BITBAND_PERI(CAN1_BASE + CAN_MSR_OFFSET, 1)
+#define CAN1_MSR_INAK	  		BITBAND_PERI(CAN1_BASE + CAN_MSR_OFFSET, 0)
+
+
+#define CAN1_TSR_TMEx(TMEx) 	BITBAND_PERI(CAN1_BASE + CAN_TSR_OFFSET, 26 + TMEx)
+#define CAN1_TSR_TME2	  		CAN1_TSR_TMEx(2)
+#define CAN1_TSR_TME1	  		CAN1_TSR_TMEx(1)
+#define CAN1_TSR_TME0	  		CAN1_TSR_TMEx(0)
+
+#define CAN1_TIxR_IDE(TIxR) 	BITBAND_PERI(CAN1_BASE + CAN_TI0R_OFFSET + 0x10 * TIxR, 2)
+#define CAN1_TI2R_IDE	  		CAN1_TIxR_IDE(2)
+#define CAN1_TI1R_IDE	  		CAN1_TIxR_IDE(1)
+#define CAN1_TI0R_IDE	  		CAN1_TIxR_IDE(0)
+#define CAN1_TIxR_RTR(TIxR) 	BITBAND_PERI(CAN1_BASE + CAN_TI0R_OFFSET + 0x10 * TIxR, 1)
+#define CAN1_TI2R_RTR	  		CAN1_TIxR_RTR(2)
+#define CAN1_TI1R_RTR	  		CAN1_TIxR_RTR(1)
+#define CAN1_TI0R_RTR	  		CAN1_TIxR_RTR(0)
+#define CAN1_TIxR_TXRQ(TIxR) 	BITBAND_PERI(CAN1_BASE + CAN_TI0R_OFFSET + 0x10 * TIxR, 0)
+#define CAN1_TI2R_TXRQ	  		CAN1_TIxR_TXRQ(2)
+#define CAN1_TI1R_TXRQ	  		CAN1_TIxR_TXRQ(1)
+#define CAN1_TI0R_TXRQ	  		CAN1_TIxR_TXRQ(0)
+
+#define CAN1_FMR_FINIT	  		BITBAND_PERI(CAN1_BASE + CAN_FMR_OFFSET, 0)
+
+
+#define CAN1_FM1R_FBMx(FBMx) 	BITBAND_PERI(CAN1_BASE + CAN_FM1R_OFFSET, FBMx)
+#define CAN1_FM1R_FBM27	  		CAN1_FM1R_FBMx(27)
+#define CAN1_FM1R_FBM26	  		CAN1_FM1R_FBMx(26)
+#define CAN1_FM1R_FBM25	  		CAN1_FM1R_FBMx(25)
+#define CAN1_FM1R_FBM24	  		CAN1_FM1R_FBMx(24)
+#define CAN1_FM1R_FBM23	  		CAN1_FM1R_FBMx(23)
+#define CAN1_FM1R_FBM22	  		CAN1_FM1R_FBMx(22)
+#define CAN1_FM1R_FBM21	  		CAN1_FM1R_FBMx(21)
+#define CAN1_FM1R_FBM20	  		CAN1_FM1R_FBMx(20)
+#define CAN1_FM1R_FBM19	  		CAN1_FM1R_FBMx(19)
+#define CAN1_FM1R_FBM18	  		CAN1_FM1R_FBMx(18)
+#define CAN1_FM1R_FBM17	  		CAN1_FM1R_FBMx(17)
+#define CAN1_FM1R_FBM16	  		CAN1_FM1R_FBMx(16)
+#define CAN1_FM1R_FBM15	  		CAN1_FM1R_FBMx(15)
+#define CAN1_FM1R_FBM14	  		CAN1_FM1R_FBMx(14)
+#define CAN1_FM1R_FBM13	  		CAN1_FM1R_FBMx(13)
+#define CAN1_FM1R_FBM12	  		CAN1_FM1R_FBMx(12)
+#define CAN1_FM1R_FBM11	  		CAN1_FM1R_FBMx(11)
+#define CAN1_FM1R_FBM10	  		CAN1_FM1R_FBMx(10)
+#define CAN1_FM1R_FBM9	  		CAN1_FM1R_FBMx(9)
+#define CAN1_FM1R_FBM8	  		CAN1_FM1R_FBMx(8)
+#define CAN1_FM1R_FBM7	  		CAN1_FM1R_FBMx(7)
+#define CAN1_FM1R_FBM6	  		CAN1_FM1R_FBMx(6)
+#define CAN1_FM1R_FBM5	  		CAN1_FM1R_FBMx(5)
+#define CAN1_FM1R_FBM4	  		CAN1_FM1R_FBMx(4)
+#define CAN1_FM1R_FBM3	  		CAN1_FM1R_FBMx(3)
+#define CAN1_FM1R_FBM2	  		CAN1_FM1R_FBMx(2)
+#define CAN1_FM1R_FBM1	  		CAN1_FM1R_FBMx(1)
+#define CAN1_FM1R_FBM0	  		CAN1_FM1R_FBMx(0)
+
+
+#define CAN1_FFA1R_FFAx(FFAx) 	BITBAND_PERI(CAN1_BASE + CAN_FFA1R_OFFSET, FFAx)
+#define CAN1_FFA1R_FFA27	  	CAN1_FFA1R_FFAx(27)
+#define CAN1_FFA1R_FFA26	  	CAN1_FFA1R_FFAx(26)
+#define CAN1_FFA1R_FFA25	  	CAN1_FFA1R_FFAx(25)
+#define CAN1_FFA1R_FFA24	  	CAN1_FFA1R_FFAx(24)
+#define CAN1_FFA1R_FFA23	  	CAN1_FFA1R_FFAx(23)
+#define CAN1_FFA1R_FFA22	  	CAN1_FFA1R_FFAx(22)
+#define CAN1_FFA1R_FFA21	  	CAN1_FFA1R_FFAx(21)
+#define CAN1_FFA1R_FFA20	  	CAN1_FFA1R_FFAx(20)
+#define CAN1_FFA1R_FFA19	  	CAN1_FFA1R_FFAx(19)
+#define CAN1_FFA1R_FFA18	  	CAN1_FFA1R_FFAx(18)
+#define CAN1_FFA1R_FFA17	  	CAN1_FFA1R_FFAx(17)
+#define CAN1_FFA1R_FFA16	  	CAN1_FFA1R_FFAx(16)
+#define CAN1_FFA1R_FFA15	  	CAN1_FFA1R_FFAx(15)
+#define CAN1_FFA1R_FFA14	  	CAN1_FFA1R_FFAx(14)
+#define CAN1_FFA1R_FFA13	  	CAN1_FFA1R_FFAx(13)
+#define CAN1_FFA1R_FFA12	  	CAN1_FFA1R_FFAx(12)
+#define CAN1_FFA1R_FFA11	  	CAN1_FFA1R_FFAx(11)
+#define CAN1_FFA1R_FFA10	  	CAN1_FFA1R_FFAx(10)
+#define CAN1_FFA1R_FFA9	  		CAN1_FFA1R_FFAx(9)
+#define CAN1_FFA1R_FFA8	  		CAN1_FFA1R_FFAx(8)
+#define CAN1_FFA1R_FFA7	  		CAN1_FFA1R_FFAx(7)
+#define CAN1_FFA1R_FFA6	  		CAN1_FFA1R_FFAx(6)
+#define CAN1_FFA1R_FFA5	  		CAN1_FFA1R_FFAx(5)
+#define CAN1_FFA1R_FFA4	  		CAN1_FFA1R_FFAx(4)
+#define CAN1_FFA1R_FFA3	  		CAN1_FFA1R_FFAx(3)
+#define CAN1_FFA1R_FFA2	  		CAN1_FFA1R_FFAx(2)
+#define CAN1_FFA1R_FFA1	  		CAN1_FFA1R_FFAx(1)
+#define CAN1_FFA1R_FFA0	  		CAN1_FFA1R_FFAx(0)
+
+#define CAN1_FA1R_FACTx(FACTx) 	BITBAND_PERI(CAN1_BASE + CAN_FA1R_OFFSET, FACTx)
+#define CAN1_FA1R_FACT27	  	CAN1_FA1R_FACTx(27)
+#define CAN1_FA1R_FACT26	  	CAN1_FA1R_FACTx(26)
+#define CAN1_FA1R_FACT25	  	CAN1_FA1R_FACTx(25)
+#define CAN1_FA1R_FACT24	  	CAN1_FA1R_FACTx(24)
+#define CAN1_FA1R_FACT23	  	CAN1_FA1R_FACTx(23)
+#define CAN1_FA1R_FACT22	  	CAN1_FA1R_FACTx(22)
+#define CAN1_FA1R_FACT21	  	CAN1_FA1R_FACTx(21)
+#define CAN1_FA1R_FACT20	  	CAN1_FA1R_FACTx(20)
+#define CAN1_FA1R_FACT19	  	CAN1_FA1R_FACTx(19)
+#define CAN1_FA1R_FACT18	  	CAN1_FA1R_FACTx(18)
+#define CAN1_FA1R_FACT17	  	CAN1_FA1R_FACTx(17)
+#define CAN1_FA1R_FACT16	  	CAN1_FA1R_FACTx(16)
+#define CAN1_FA1R_FACT15	  	CAN1_FA1R_FACTx(15)
+#define CAN1_FA1R_FACT14	  	CAN1_FA1R_FACTx(14)
+#define CAN1_FA1R_FACT13	  	CAN1_FA1R_FACTx(13)
+#define CAN1_FA1R_FACT12	  	CAN1_FA1R_FACTx(12)
+#define CAN1_FA1R_FACT11	  	CAN1_FA1R_FACTx(11)
+#define CAN1_FA1R_FACT10	  	CAN1_FA1R_FACTx(10)
+#define CAN1_FA1R_FACT9	  		CAN1_FA1R_FACTx(9)
+#define CAN1_FA1R_FACT8	  		CAN1_FA1R_FACTx(8)
+#define CAN1_FA1R_FACT7	  		CAN1_FA1R_FACTx(7)
+#define CAN1_FA1R_FACT6	  		CAN1_FA1R_FACTx(6)
+#define CAN1_FA1R_FACT5	  		CAN1_FA1R_FACTx(5)
+#define CAN1_FA1R_FACT4	  		CAN1_FA1R_FACTx(4)
+#define CAN1_FA1R_FACT3	  		CAN1_FA1R_FACTx(3)
+#define CAN1_FA1R_FACT2	  		CAN1_FA1R_FACTx(2)
+#define CAN1_FA1R_FACT1	  		CAN1_FA1R_FACTx(1)
+#define CAN1_FA1R_FACT0	  		CAN1_FA1R_FACTx(0)
+
+#define CAN1_FS1R_FSCx(FSCx) 	BITBAND_PERI(CAN1_BASE + CAN_FS1R_OFFSET, FSCx)
+#define CAN1_FS1R_FSC27	  		CAN1_FS1R_FSCx(27)
+#define CAN1_FS1R_FSC26	  		CAN1_FS1R_FSCx(26)
+#define CAN1_FS1R_FSC25	  		CAN1_FS1R_FSCx(25)
+#define CAN1_FS1R_FSC24	  		CAN1_FS1R_FSCx(24)
+#define CAN1_FS1R_FSC23	  		CAN1_FS1R_FSCx(23)
+#define CAN1_FS1R_FSC22	  		CAN1_FS1R_FSCx(22)
+#define CAN1_FS1R_FSC21	  		CAN1_FS1R_FSCx(21)
+#define CAN1_FS1R_FSC20	  		CAN1_FS1R_FSCx(20)
+#define CAN1_FS1R_FSC19	  		CAN1_FS1R_FSCx(19)
+#define CAN1_FS1R_FSC18	  		CAN1_FS1R_FSCx(18)
+#define CAN1_FS1R_FSC17	  		CAN1_FS1R_FSCx(17)
+#define CAN1_FS1R_FSC16	  		CAN1_FS1R_FSCx(16)
+#define CAN1_FS1R_FSC15	  		CAN1_FS1R_FSCx(15)
+#define CAN1_FS1R_FSC14	  		CAN1_FS1R_FSCx(14)
+#define CAN1_FS1R_FSC13	  		CAN1_FS1R_FSCx(13)
+#define CAN1_FS1R_FSC12	  		CAN1_FS1R_FSCx(12)
+#define CAN1_FS1R_FSC11	  		CAN1_FS1R_FSCx(11)
+#define CAN1_FS1R_FSC10	  		CAN1_FS1R_FSCx(10)
+#define CAN1_FS1R_FSC9	  		CAN1_FS1R_FSCx(9)
+#define CAN1_FS1R_FSC8	  		CAN1_FS1R_FSCx(8)
+#define CAN1_FS1R_FSC7	  		CAN1_FS1R_FSCx(7)
+#define CAN1_FS1R_FSC6	  		CAN1_FS1R_FSCx(6)
+#define CAN1_FS1R_FSC5	  		CAN1_FS1R_FSCx(5)
+#define CAN1_FS1R_FSC4	  		CAN1_FS1R_FSCx(4)
+#define CAN1_FS1R_FSC3	  		CAN1_FS1R_FSCx(3)
+#define CAN1_FS1R_FSC2	  		CAN1_FS1R_FSCx(2)
+#define CAN1_FS1R_FSC1	  		CAN1_FS1R_FSCx(1)
+#define CAN1_FS1R_FSC0	  		CAN1_FS1R_FSCx(0)
+
+#define CAN1_RF0R_RFOM0	  		BITBAND_PERI(CAN1_BASE + CAN_RF0R_OFFSET, 5)
+#define CAN1_RF1R_RFOM1	  		BITBAND_PERI(CAN1_BASE + CAN_RF1R_OFFSET, 5)
+/*</Bit-Band Pointers>*/
+
+
+
+
+/*<Registers Pointers>*/
+#define CAN1_MCR_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_MCR_OFFSET))
+#define CAN1_MSR_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_MSR_OFFSET))
+#define CAN1_BTR_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_BTR_OFFSET))
+#define CAN1_TIxR_REG(x) 	(*(volatile unsigned int *)(CAN1_BASE + CAN_TI0R_OFFSET + 0x10 * x))
+#define CAN1_TI2R_REG	 	CAN1_TIxR_REG(2)
+#define CAN1_TI1R_REG	 	CAN1_TIxR_REG(1)
+#define CAN1_TI0R_REG	 	CAN1_TIxR_REG(0)
+#define CAN1_TDTxR_REG(x) 	(*(volatile unsigned int *)(CAN1_BASE + CAN_TDT0R_OFFSET + 0x10 * x))
+#define CAN1_TDT2R_REG	 	CAN1_TDTxR_REG(2)
+#define CAN1_TDT1R_REG	 	CAN1_TDTxR_REG(1)
+#define CAN1_TDT0R_REG	 	CAN1_TDTxR_REG(0)
+#define CAN1_TDLxR_REG(x) 	(*(volatile unsigned int *)(CAN1_BASE + CAN_TDL0R_OFFSET + 0x10 * x))
+#define CAN1_TDL2R_REG	 	CAN1_TDLxR_REG(2)
+#define CAN1_TDL1R_REG	 	CAN1_TDLxR_REG(1)
+#define CAN1_TDL0R_REG	 	CAN1_TDLxR_REG(0)
+#define CAN1_TDHxR_REG(x) 	(*(volatile unsigned int *)(CAN1_BASE + CAN_TDH0R_OFFSET + 0x10 * x))
+#define CAN1_TDH2R_REG	 	CAN1_TDHxR_REG(2)
+#define CAN1_TDH1R_REG	 	CAN1_TDHxR_REG(1)
+#define CAN1_TDH0R_REG	 	CAN1_TDHxR_REG(0)
+#define CAN1_FFA1R_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_FFA1R_OFFSET))
+#define CAN1_F0R1_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F0R1_OFFSET))
+#define CAN1_F0R2_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F0R2_OFFSET))
+
+#define CAN1_FiRx_REG(i, x)	(*(volatile unsigned int *)(CAN1_BASE + CAN_F0R1_OFFSET + i * 0x08 + (x - 1) * 0x04))
+#define CAN1_F0R1_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F0R1_OFFSET))
+#define CAN1_F0R2_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F0R2_OFFSET))
+#define CAN1_F1R1_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F1R1_OFFSET))
+#define CAN1_F1R2_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F1R2_OFFSET))
+#define CAN1_F2R1_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F2R1_OFFSET))
+#define CAN1_F2R2_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F2R2_OFFSET))
+#define CAN1_F3R1_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F3R1_OFFSET))
+#define CAN1_F3R2_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F3R2_OFFSET))
+#define CAN1_F4R1_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F4R1_OFFSET))
+#define CAN1_F4R2_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F4R2_OFFSET))
+/* .
+ * .
+ * .
+ */
+#define CAN1_F27R1_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F27R1_OFFSET))
+#define CAN1_F27R2_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_F27R2_OFFSET))
+
+#define CAN1_RFxR_REG(x)	(*(volatile unsigned int *)(CAN1_BASE + CAN_RF0R_OFFSET + (x) * 0x04))
+#define CAN1_RF0R_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_RF0R_OFFSET))
+#define CAN1_RF1R_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_RF1R_OFFSET))
+
+#define CAN1_RDL0R_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_RDL0R_OFFSET))
+#define CAN1_RDH0R_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_RDH0R_OFFSET))
+#define CAN1_RDL1R_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_RDL1R_OFFSET))
+#define CAN1_RDH1R_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_RDH1R_OFFSET))
+#define CAN1_RDT0R_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_RDT0R_OFFSET))
+#define CAN1_RDT1R_REG	 	(*(volatile unsigned int *)(CAN1_BASE + CAN_RDT1R_OFFSET))
+/*</Registers Pointers>*/
+
+
+
+
+/*<Functions' Parameters>*/
+
+/*Cases of FLTR_MODE Pram*/
+#define _FLTR_MODE_OFFSET		0
+#define FLTR_MODE_MASK			(0 + _FLTR_MODE_OFFSET)
+#define FLTR_MODE_LIST			(1 + _FLTR_MODE_OFFSET)
+
+/*Cases of FLTR_SCALE Pram*/
+#define _FLTR_SCALE_OFFSET		2
+#define FLTR_SCALE_DUAL			(0 + _FLTR_SCALE_OFFSET)
+#define FLTR_SCALE_SINGLE		(1 + _FLTR_SCALE_OFFSET)
+
+/*Cases of FLTR_FIFO Pram*/
+#define _FLTR_FIFO_OFFSET		4
+#define FLTR_FIFO_0				(0 + _FLTR_FIFO_OFFSET)
+#define FLTR_FIFO_1				(1 + _FLTR_FIFO_OFFSET)
+
+/*Cases of ID_MODE Pram*/
+#define _ID_MODE_OFFSET			6
+#define ID_MODE_STANDARD		(0 + _ID_MODE_OFFSET)
+#define ID_MODE_EXTENDED		(1 + _ID_MODE_OFFSET)
+
+/*Cases of FRAME_MODE Pram*/
+#define _FRAME_MODE_OFFSET		8
+#define FRAME_MODE_DATA			(0 + _FRAME_MODE_OFFSET)
+#define FRAME_MODE_REMOTE		(1 + _FRAME_MODE_OFFSET)
+
+/*Cases of FRAME_MODE Pram*/
+#define _MAILBOX_OFFSET			10
+#define MAILBOX_0				(0 + _MAILBOX_OFFSET)
+#define MAILBOX_1				(1 + _MAILBOX_OFFSET)
+#define MAILBOX_2				(2 + _MAILBOX_OFFSET)
+
+/*Cases of FIFO_NUM Pram*/
+#define _FIFO_NUM_OFFSET		13
+#define FIFO_NUM_0				(0 + _FIFO_NUM_OFFSET)
+#define FIFO_NUM_1				(1 + _FIFO_NUM_OFFSET)
+
+/*</Functions' Parameters>*/
+
+
+/*<Functions>*/
+void CAN1_Init(void);
+void CAN1_Filter(char Filte_Num, char FLTR_MODE, char FLTR_SCALE, char FTLR_FIFO, uint32_t FiR1, uint32_t FiR2);
+void CAN1_Transmit(uint16_t ID, char ID_MODE, char FRAME_MODE, char MAILBOX, char* Data);
+char CAN1_Receive(char FIFO_NUM, char* Data, uint8_t *DLC, uint8_t *FilterIndex);
+/*</Functions>*/
+
+#endif /* HEADERS_CAN_H_ */
