@@ -6,7 +6,7 @@
  */
 
 
-#include "MCAL/STM32F103/MCAL_H/USART2.h"
+#include "HAL/HAL_H/SIM800L.h"
 
 
 void SIM800L_Init(void){
@@ -32,4 +32,3 @@ void SIM800L_Call(char *Number){
 	USART2_Send(';');
 	USART2_Send_Ln();
 }
-
