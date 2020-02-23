@@ -9,7 +9,7 @@
 #define HEADERS_I2C_LM75A_H_
 
 /*<Includes>*/
-#include "Headers/I2C.h"
+#include "MCAL/STM32F103/MCAL_H/I2C.h"
 /*</Includes>*/
 
 
