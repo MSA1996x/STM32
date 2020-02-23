@@ -5,7 +5,7 @@
  *      Author: Mohammed Samir
  */
 
-#include <MCAL/STM32F103/MCAL_H/I2C_LM75A.h>
+#include <HAL/HAL_H/LM75A.h>
 
 char LM75A_Init(unsigned char Address7){
 	/*Initialize I2C*/
@@ -26,6 +26,7 @@ char LM75A_Init(unsigned char Address7){
 
 
 float LM75A_Read_Temp(unsigned char Address7){
+	/*For Storing The Received Data*/
 	unsigned char Buf[2];
 	/*Send Start Bit*/
 	I2C1_Start_Bit();
@@ -34,4 +35,3 @@ float LM75A_Read_Temp(unsigned char Address7){
 	/*Calculate The Temperature The Return It*/
 	return (Buf[0] & 0b01111111) * ((Buf[0]>>7) == 1 ? -1 : 1) + ((Buf[1]>>7) * 0.5);
 }
-
