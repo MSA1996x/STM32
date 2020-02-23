@@ -7,6 +7,7 @@
 #include "HAL/HAL_H/TFT_Touch.h"
 #include "HAL/HAL_H/UltraSonic.h"
 #include "HAL/HAL_H/SIM800L.h"
+#include "HAL/HAL_H/DS18B20.h"
 
 
 #endif /* APP_APP_H_MAIN_H_ */
